@@ -1,8 +1,10 @@
+import org.codehaus.groovy.runtime.ArrayTypeUtils.dimension
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id ("kotlin-kapt")
-    id ("dagger.hilt.android.plugin")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -17,6 +19,41 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+//
+//    flavorDimensions.add("type")
+//
+//    productFlavors {
+//        create("dev") {
+//            setDimension("type")
+//            applicationId = "com.example.hiltsetup.dev"
+//        }
+//
+//        create("pro") {
+//
+//            setDimension("type")
+//            applicationId = "com.example.hiltsetup.pro"
+//        }
+//    }
+
+    flavorDimensions += "version"
+    productFlavors {
+        create("demo") {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // If you are using only one dimension, this property is optional,
+            // and the plugin automatically assigns all the module's flavors to
+            // that dimension.
+            dimension = "version"
+            applicationIdSuffix = ".demo"
+            versionNameSuffix = "-demo"
+            applicationId = "com.example.hiltsetup.dev"
+        }
+        create("full") {
+            dimension = "version"
+            applicationIdSuffix = ".full"
+            versionNameSuffix = "-full"
+            applicationId = "com.example.hiltsetup.pro"
+        }
     }
 
     buildTypes {
@@ -35,8 +72,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures{
-        viewBinding  = true
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -56,30 +94,30 @@ dependencies {
 
 
     // For instrumentation tests
-    androidTestImplementation  ("com.google.dagger:hilt-android-testing:2.50")
-    androidTestAnnotationProcessor ("com.google.dagger:hilt-compiler:2.50")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.50")
+    androidTestAnnotationProcessor("com.google.dagger:hilt-compiler:2.50")
 
     // For local unit tests
-    testImplementation ("com.google.dagger:hilt-android-testing:2.50")
-    testAnnotationProcessor ("com.google.dagger:hilt-compiler:2.50")
+    testImplementation("com.google.dagger:hilt-android-testing:2.50")
+    testAnnotationProcessor("com.google.dagger:hilt-compiler:2.50")
 
     // Retrofit & OkHttp
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6")
 
     // RxJava 2
-    implementation ("io.reactivex.rxjava2:rxjava:2.2.18")
-    implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.18")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
     //RxJava2 with Retrofit
-    implementation ("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
 
     // Glide
-    implementation ("com.github.bumptech.glide:glide:4.13.2")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.13.2")
+    implementation("com.github.bumptech.glide:glide:4.13.2")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.13.2")
 
     //lifecycle
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 }
 kapt {
     correctErrorTypes = true
